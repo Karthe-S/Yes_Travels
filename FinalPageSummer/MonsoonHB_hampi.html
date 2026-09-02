@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monsoon Escape | Hampi</title>
+    <style>
+        :root {
+            --bg-1: #061a22;
+            --bg-2: #0c2d36;
+            --bg-3: #1c4a57;
+            --panel: rgba(12, 38, 47, 0.8);
+            --panel-soft: rgba(17, 50, 60, 0.72);
+            --card: rgba(216, 235, 240, 0.9);
+            --card-strong: #eaf6f9;
+            --water: #58b7d6;
+            --water-deep: #2397c0;
+            --mist: #dfeef2;
+            --text: #edf9fc;
+            --muted: #bed7dd;
+            --gold: #f4d28a;
+            --leaf: #7eb67d;
+            --shadow: rgba(2, 12, 18, 0.45);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(110, 188, 214, 0.25), transparent 25%),
+                radial-gradient(circle at bottom right, rgba(53, 98, 124, 0.35), transparent 30%),
+                linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 38%, var(--bg-3) 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.04) 0,
+                rgba(255, 255, 255, 0.04) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+            pointer-events: none;
+            opacity: 0.45;
+        }
+
+        .page-shell {
+            width: min(1100px, 92%);
+            margin: 32px auto 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 18px 22px;
+            background: rgba(13, 47, 58, 0.7);
+            border: 1px solid rgba(170, 210, 216, 0.28);
+            border-radius: 18px;
+            box-shadow: 0 16px 35px var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--mist);
+        }
+
+        .brand span {
+            color: var(--gold);
+        }
+
+        .toggle {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: 1px solid rgba(202, 225, 232, 0.4);
+            background: rgba(231, 245, 248, 0.12);
+            color: var(--text);
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn.active {
+            background: linear-gradient(135deg, var(--water) 0%, var(--water-deep) 100%);
+            border-color: transparent;
+            box-shadow: 0 10px 20px rgba(35, 151, 192, 0.4);
+            color: #fff;
+        }
+
+        .planner-card {
+            margin-top: 24px;
+            background: rgba(232, 245, 247, 0.96);
+            border-radius: 26px;
+            overflow: hidden;
+            box-shadow: 0 28px 60px rgba(1, 14, 22, 0.3);
+            border: 1px solid rgba(159, 196, 206, 0.7);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.5fr 0.8fr;
+            gap: 18px;
+            padding: 34px 30px 26px;
+            background:
+                linear-gradient(120deg, rgba(7, 40, 48, 0.65), rgba(18, 82, 99, 0.38)),
+                url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            color: var(--text);
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            line-height: 0.96;
+            letter-spacing: -0.04em;
+            color: #f7fdff;
+        }
+
+        .summary {
+            margin: 18px 0 0;
+            max-width: 620px;
+            color: rgba(239, 249, 252, 0.92);
+            font-size: 1.12rem;
+            line-height: 1.7;
+        }
+
+        .spark-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .spark {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .spark::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(244, 210, 138, 0.9);
+        }
+
+        .weather-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-self: stretch;
+            background: rgba(8, 32, 39, 0.42);
+            border: 1px solid rgba(201, 229, 236, 0.18);
+            border-radius: 20px;
+            padding: 22px 18px;
+            backdrop-filter: blur(8px);
+        }
+
+        .weather-tag {
+            display: inline-block;
+            width: fit-content;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            background: rgba(87, 196, 234, 0.18);
+            border: 1px solid rgba(134, 217, 239, 0.4);
+            color: var(--mist);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .temp-row {
+            display: flex;
+            align-items: end;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .temp {
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .temp-unit {
+            font-size: 1.1rem;
+            color: var(--muted);
+            padding-bottom: 8px;
+        }
+
+        .weather-meta {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(70px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .mini-box {
+            padding: 12px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(224, 238, 243, 0.16);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .mini-box strong {
+            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .mini-box span {
+            font-weight: 700;
+        }
+
+        .section {
+            padding: 30px 26px 26px;
+            color: #0d2430;
+        }
+
+        .section h2 {
+            margin: 0 0 20px;
+            font-size: clamp(1.8rem, 2vw, 2.5rem);
+            letter-spacing: -0.03em;
+            color: #153642;
+        }
+
+        .place-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+        }
+
+        .place-card {
+            background: linear-gradient(180deg, rgba(248, 250, 251, 0.96), rgba(219, 231, 234, 0.9));
+            border: 1px solid rgba(107, 144, 152, 0.4);
+            border-radius: 18px;
+            padding: 12px;
+            box-shadow: 0 14px 28px rgba(23, 48, 58, 0.08);
+        }
+
+        .place-image {
+            display: block;
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(86, 125, 136, 0.3);
+            margin-bottom: 14px;
+        }
+
+        .place-card h3 {
+            margin: 0 0 8px;
+            font-size: 1.45rem;
+            color: #163d49;
+        }
+
+        .place-card p {
+            margin: 0;
+            color: #28515f;
+            line-height: 1.7;
+            font-size: 0.98rem;
+        }
+
+        .stay-card {
+            display: grid;
+            grid-template-columns: 1.4fr 0.8fr;
+            gap: 20px;
+            padding: 22px;
+            background: linear-gradient(135deg, rgba(212, 233, 236, 0.97), rgba(183, 217, 224, 0.9));
+            border: 1px solid rgba(110, 151, 160, 0.35);
+            border-radius: 20px;
+            box-shadow: 0 18px 30px rgba(20, 48, 57, 0.08);
+        }
+
+        .tag {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(126, 182, 125, 0.16);
+            border: 1px solid rgba(104, 159, 108, 0.45);
+            color: #2d5e33;
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .stay-card h3 {
+            margin: 0 0 10px;
+            font-size: clamp(1.7rem, 2vw, 2.4rem);
+            color: #183741;
+        }
+
+        .stay-card p {
+            margin: 0;
+            color: #335866;
+            line-height: 1.8;
+            font-size: 1.02rem;
+        }
+
+        .stay-meta {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(80px, 1fr));
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .stay-meta div {
+            background: rgba(255, 255, 255, 0.48);
+            border: 1px solid rgba(117, 154, 165, 0.4);
+            border-radius: 14px;
+            padding: 12px 10px;
+            text-align: center;
+        }
+
+        .stay-meta strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #4f6a74;
+        }
+
+        .stay-meta span {
+            font-size: 0.96rem;
+            font-weight: 800;
+            color: #183741;
+        }
+
+        @media (max-width: 780px) {
+            .hero,
+            .stay-card {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .weather-meta,
+            .stay-meta {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <div class="brand">Monsoon <span>Trails</span></div>
+            <div class="toggle" aria-label="Season toggle">
+                <button class="btn">Summer</button>
+                <button class="btn active">Monsoon</button>
+            </div>
+        </header>
+
+        <main class="planner-card">
+            <section class="hero">
+                <div>
+                    <p class="eyebrow">Destination</p>
+                    <h1>Hampi</h1>
+                    <p class="summary">A misty, rain-soaked escape where ancient ruins glow under dramatic clouds, lush greens surround every path, and every sunset feels cinematic.</p>
+                    <div class="spark-list">
+                        <span class="spark">Cloudy days</span>
+                        <span class="spark">Heritage walk</span>
+                        <span class="spark">River views</span>
+                    </div>
+                </div>
+
+                <aside class="weather-panel" aria-label="Weather details">
+                    <span class="weather-tag">Monsoon vibe</span>
+                    <div class="temp-row">
+                        <div class="temp">20</div>
+                        <div class="temp-unit">°C</div>
+                    </div>
+                    <div class="weather-meta">
+                        <div class="mini-box">
+                            <strong>Rain</strong>
+                            <span>82%</span>
+                        </div>
+                        <div class="mini-box">
+                            <strong>Wind</strong>
+                            <span>14 km/h</span>
+                        </div>
+                        <div class="mini-box">
+                            <strong>Best</strong>
+                            <span>Evening</span>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="section">
+                <h2>Places inside Hampi to visit</h2>
+                <div class="place-grid">
+                    <article class="place-card">
+                        <img class="place-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNmqOAqZNNfRgfGtpFbyK3DAP_fAWUEjtQHF9_qyVnWQ&s=10" alt="Virupaksha Temple in Hampi" />
+                        <h3>Virupaksha Temple</h3>
+                        <p>Admire the towering gateway and sacred architecture washed in a cool, rain-kissed glow.</p>
+                    </article>
+
+                    <article class="place-card">
+                        <img class="place-image" src="https://s7ap1.scene7.com/is/image/incredibleindia/vittala-temple-hampi-karnataka-5-attr-hero?qlt=82&ts=1726721311464" alt="Vijaya Vittala Temple in Hampi" />
+                        <h3>Vijaya Vittala Temple</h3>
+                        <p>Walk through carved corridors and the iconic stone chariot as monsoon clouds drift overhead.</p>
+                    </article>
+
+                    <article class="place-card">
+                        <img class="place-image" src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Enroute_to_Matanga_hills%2C_Hampi.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original" alt="Scenic landscape view of Hampi" />
+                        <h3>Matanga Hill</h3>
+                        <p>Catch sweeping valley views and dramatic storm-light across green ridges and ancient ruins.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Best place to stay in monsoon</h2>
+                <div class="stay-card">
+                    <div>
+                        <span class="tag">Best for comfort</span>
+                        <h3>Hampi Heritage Resort</h3>
+                        <p>Cozy rooms, sheltered pathways, warm hospitality, and easy access to the city’s treasured viewpoints and temples during the rainy season.</p>
+                    </div>
+
+                    <div class="stay-meta">
+                        <div>
+                            <strong>Type</strong>
+                            <span>Resort</span>
+                        </div>
+                        <div>
+                            <strong>Budget</strong>
+                            <span>₹8,500/night</span>
+                        </div>
+                        <div>
+                            <strong>Ideal for</strong>
+                            <span>Families</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
