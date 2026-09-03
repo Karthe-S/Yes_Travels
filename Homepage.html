@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>YES Travels</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f3ecda;
+    color: #142b2c;
+    margin: 0;
+  }
+
+  .navbar {
+    background-color: #ffffff;
+    padding: 15px 30px;
+    border-bottom: 2px solid #142b2c;
+  }
+
+  .navbar h1 {
+    display: inline;
+    font-size: 40px;
+    font-family: Georgia, serif;
+    color: #e8724a;
+  }
+
+  .hero {
+    background-color: #1f4b4d;
+    color: white;
+    padding: 40px 30px;
+    margin: 20px;
+    border-radius: 15px;
+  }
+
+  .hero h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .search-box {
+    background-color: white;
+    color: #142b2c;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+
+  .search-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 10px;
+  }
+
+  .search-box input, .search-box select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .search-box button {
+    background-color: #e8724a;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .results {
+    padding: 20px 30px;
+  }
+
+  .results h2 {
+    border-bottom: 2px solid #142b2c;
+    padding-bottom: 10px;
+  }
+
+  .card {
+    display: inline-block;
+    width: 220px;
+    background-color: white;
+    border: 2px solid #142b2c;
+    border-radius: 10px;
+    margin: 10px;
+    vertical-align: top;
+    overflow: hidden;
+  }
+
+  .card .photo {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card .info {
+    padding: 10px;
+  }
+
+  .card .info h3 {
+    margin: 0 0 5px 0;
+  }
+
+  .card .info p {
+    margin: 4px 0;
+    font-size: 14px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    border-top: 2px solid #142b2c;
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <h1>YES Travels</h1>
+</div>
+
+<div class="hero">
+  <h2>Say yes to all your travels!!!</h2>
+
+  <div class="search-box">
+    <label for="destination">Where is your current location?</label>
+    <input type="text" id="destination" placeholder="Enter your city...">
+
+    <label for="budget">Amount range</label>
+    <select id="budget">
+      <option value="0-10000" selected>Under Rs.10,000</option>
+      <option value="10000-20000">Rs.10,000 - Rs.20,000</option>
+    </select>
+
+    <button onclick="filterDestinations()">Find trips</button>
+  </div>
+</div>
+
+<div class="results" id="resultsSection" style="display:none;">
+  <h2>Results</h2>
+  <div id="resultsGrid"></div>
+</div>
+
+<footer>YES TRAVELS - PLAN LESS, WANDER MORE</footer>
+
+<script>
+  var destinations = [
+    { name: "Hampi", km: 343, price: 8000, color: "#e8724a", desc: "Ancient ruins and boulders.", image: "hampi.jpg" },
+    { name: "Mysore", km: 146, price: 6000, color: "#dda13b", desc: "Palaces and gardens.", image: "mysore.jpg" },
+    { name: "Coorg", km: 252, price: 9000, color: "#1f4b4d", desc: "Misty coffee hills.", image: "coorg.jpg" },
+    { name: "Chikkamagaluru", km: 242, price: 7000, color: "#8c5e3c", desc: "Trekking peaks.", image: "chikkamagaluru.jpg" },
+
+    { name: "Hampi", km: 343, price: 15000, color: "#e8724a", desc: "Ancient ruins and boulders.", image: "hampi.jpg" },
+    { name: "Mysore", km: 146, price: 12000, color: "#dda13b", desc: "Palaces and gardens.", image: "mysore.jpg" },
+    { name: "Coorg", km: 252, price: 18000, color: "#1f4b4d", desc: "Misty coffee hills.", image: "coorg.jpg" },
+    { name: "Chikkamagaluru", km: 242, price: 14000, color: "#8c5e3c", desc: "Trekking peaks.", image: "chikkamagaluru.jpg" }
+  ];
+
+  function showResults(list) {
+    var grid = document.getElementById("resultsGrid");
+    grid.innerHTML = "";
+
+    if (list.length === 0) {
+      grid.innerHTML = "<p>No trips match. Try a different search.</p>";
+      return;
+    }
+
+    for (var i = 0; i < list.length; i++) {
+      var place = list[i];
+
+      var card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML =
+        "<img class='photo' src='" + place.image + "' alt='" + place.name + "'>" +
+        "<div class='info'>" +
+        "<h3 style='color:" + place.color + "'>" + place.name + "</h3>" +
+        "<p>" + place.km + " KM away</p>" +
+        "<p>Rs." + place.price + " approx.</p>" +
+        "<p>" + place.desc + "</p>" +
+        "</div>";
+
+      grid.appendChild(card);
+    }
+  }
+
+  function filterDestinations() {
+    var query = document.getElementById("destination").value.trim();
+
+    if (query === "") {
+      alert("Please enter your current location first.");
+      return;
+    }
+
+    var range = document.getElementById("budget").value.split("-");
+    var min = Number(range[0]);
+    var max = Number(range[1]);
+
+    var filtered = [];
+
+    for (var i = 0; i < destinations.length; i++) {
+      var d = destinations[i];
+      var matchesBudget = d.price >= min && d.price <= max;
+
+      if (matchesBudget) {
+        filtered.push(d);
+      }
+    }
+
+    document.getElementById("resultsSection").style.display = "block";
+    showResults(filtered);
+  }
+</script>
+
+</body>
+</html>
