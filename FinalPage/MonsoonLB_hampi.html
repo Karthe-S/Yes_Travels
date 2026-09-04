@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vacation Planner | Monsoon | Hampi</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #2a4285;
+            color: #18343b;
+        }
+
+        .page-shell {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #6372e0;
+            border: 2px solid #5d8588;
+            padding: 15px 20px;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            border: 2px solid #477177;
+            background: #eef6f4;
+            padding: 8px 18px;
+            font-weight: bold;
+        }
+
+        .btn.active {
+            background: #336a9a;
+            color: white;
+        }
+
+        .planner-card {
+            background: #84a3c1;
+            border: 2px solid #477db0;
+            margin-top: 20px;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #4d8385;
+            padding: 30px 25px;
+        }
+
+        .eyebrow,
+        .summary {
+            margin: 0;
+        }
+
+        .eyebrow {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            margin: 8px 0;
+            font-size: 50px;
+            color: #f4fbf9;
+        }
+
+        .summary {
+            font-size: 18px;
+            max-width: 550px;
+            color: #dceceb;
+        }
+
+        .rain-badge {
+            background: #d9eeee;
+            border: 2px solid #4f979a;
+            padding: 12px 16px;
+            font-weight: bold;
+        }
+
+        .section {
+            padding: 25px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            font-size: 30px;
+        }
+
+        .place-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .place-card {
+            background: #e7f1ef;
+            border: 2px solid #5f87a3;
+            padding: 12px;
+        }
+
+        .place-image {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            border: 2px solid #6aa1a3;
+            margin-bottom: 12px;
+        }
+
+        .place-card h3 {
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+
+        .place-card p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .stay-card {
+            background: #61868f;
+            border: 2px solid #2c698e;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #156e94;
+            border: 1px solid #43a893;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stay-card h3 {
+            margin: 0 0 8px;
+            font-size: 26px;
+        }
+
+        .stay-card p {
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .stay-meta {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(90px, 1fr));
+            gap: 10px;
+        }
+
+        .stay-meta div {
+            background: #215080;
+            border: 1px solid #48759c;
+            padding: 10px;
+        }
+
+        .stay-meta strong {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .stay-meta span {
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+
+            .topbar,
+            .hero,
+            .stay-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stay-meta {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <div class="brand">Vacation Planner</div>
+            <div class="toggle" aria-label="Season toggle">
+                <button class="btn" type="button">Summer</button>
+                <button class="btn active" type="button">Monsoon</button>
+            </div>
+        </header>
+
+        <main class="planner-card">
+            <section class="hero">
+                <div>
+                    <p class="eyebrow">Destination</p>
+                    <h1>Hampi</h1>
+                    <p class="summary">A rain-washed heritage trip filled with grand ruins, lush scenery, and
+                        memorable moments among Hampi's monsoon landscapes.</p>
+                </div>
+                <div class="rain-badge">Rainy 22°C</div>
+            </section>
+
+            <section class="section">
+                <h2>Places inside Hampi to visit</h2>
+                <div class="place-grid">
+                    <article class="place-card">
+                        <img class="place-image"
+                            src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Complex_of_Virupaksha_Temple%2C_Hampi_%2804%29.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"
+                            alt="Virupaksha Temple in Hampi" />
+                        <h3>Virupaksha Temple</h3>
+                        <p>Admire the towering gateway and sacred architecture that make Hampi unforgettable.</p>
+                    </article>
+
+                    <article class="place-card">
+                        <img class="place-image"
+                            src="https://www.karnataka.com/wp-content/uploads/2011/06/vittala-temple-anegondi-hampi.jpg"
+                            alt="Vijaya Vittala Temple in Hampi" />
+                        <h3>Vijaya Vittala Temple</h3>
+                        <p>Visit the stone chariot and beautifully carved halls that reflect Hampi's royal past.</p>
+                    </article>
+
+                    <article class="place-card">
+                        <img class="place-image"
+                            src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Enroute_to_Matanga_hills%2C_Hampi.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"
+                            alt="Scenic landscape view of Hampi" />
+                        <h3>Matanga Hill</h3>
+                        <p>Climb to the top for panoramic views and a golden-hour sunset over the ruins.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Place to stay in monsoon</h2>
+                <div class="stay-card">
+                    <div>
+                        <span class="tag">Best for value</span>
+                        <h3>Hampi Heritage Resort</h3>
+                        <p>Enjoy misty views, covered courtyards, and a relaxed stay close to the main sightseeing areas
+                            during the monsoon.</p>
+                    </div>
+
+                    <div class="stay-meta">
+                        <div>
+                            <strong>Type:</strong>
+                            <br>
+                            <span>Resort</span>
+                        </div>
+                        <div>
+                            <strong>Budget</strong>
+                            <br>
+                            <span>₹3,500 per night</span>
+                        </div>
+                        <div>
+                            <strong>Best for</strong>
+                            <br>
+                            <span>Families</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="season-toggle.js"></script>
+</body>
+
+</html>
